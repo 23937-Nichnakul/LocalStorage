@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบบริหารจัดการข้อมูล - Data Management System</title>
+    <title>Enterprise Data Management System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-color: #1e293b; /* สีกรมท่าโมเดิร์น */
-            --accent-color: #3b82f6;  /* สีฟ้าสดใสสำหรับปุ่มหลัก */
-            --accent-hover: #1d4ed8;
-            --danger-color: #ef4444;  /* สีแดงสำหรับลบ */
-            --danger-hover: #dc2626;
-            --bg-color: #f8fafc;      /* สีพื้นหลังเทาอมฟ้าอ่อน */
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
+            --primary-color: #1e3a8a; /* Deep Blue */
+            --primary-hover: #1d4ed8;
+            --success-color: #10b981; /* Emerald Green */
+            --danger-color: #ef4444; /* Soft Red */
+            --bg-color: #f8fafc; /* Slate Light */
+            --text-main: #1e293b;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
         }
@@ -26,10 +24,10 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Sarabun', sans-serif;
         }
 
         body {
+            font-family: 'Inter', 'Sarabun', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             padding: 40px 20px;
@@ -42,34 +40,41 @@
             max-width: 1100px;
         }
 
-        /* Header */
+        /* Header Style */
         header {
             margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        header h1 {
+
+        h1 {
             font-size: 24px;
             font-weight: 600;
             color: var(--primary-color);
-            margin-bottom: 6px;
-        }
-        header p {
-            font-size: 14px;
-            color: var(--text-muted);
+            letter-spacing: -0.5px;
         }
 
-        /* Card Layout สำหรับฟอร์ม */
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Card Layout */
         .card {
-            background-color: var(--card-bg);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
             padding: 24px;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
             margin-bottom: 24px;
         }
 
-        .form-grid {
+        /* Form Controls */
+        .grid-form {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto;
             gap: 16px;
             align-items: flex-end;
         }
@@ -80,7 +85,7 @@
             gap: 8px;
         }
 
-        .form-group label {
+        label {
             font-size: 13px;
             font-weight: 500;
             color: var(--text-muted);
@@ -89,62 +94,83 @@
         input {
             width: 100%;
             padding: 10px 14px;
-            font-size: 14px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
             outline: none;
-            transition: all 0.2s ease;
-            background-color: #fff;
         }
 
         input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
 
         /* Buttons */
-        button {
+        .btn {
             padding: 10px 20px;
+            border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
-            border: none;
-            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
         }
 
         .btn-primary {
-            background-color: var(--accent-color);
+            background-color: var(--primary-color);
             color: white;
-            height: 41px; /* ให้เท่ากับระดับ Input */
         }
 
         .btn-primary:hover {
-            background-color: var(--accent-hover);
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: #f1f5f9;
         }
 
         .btn-danger {
             background-color: transparent;
             color: var(--danger-color);
             padding: 6px 12px;
-            border: 1px solid transparent;
+            font-size: 13px;
         }
 
         .btn-danger:hover {
-            background-color: rgba(239, 68, 68, 0.08);
-            border-radius: 6px;
+            background-color: #fef2f2;
+            border-radius: 4px;
         }
 
-        /* Modern Table */
-        .table-container {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-            overflow: hidden;
+        /* Toolbar Action */
+        .table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 16px;
+        }
+
+        .search-box {
+            max-width: 300px;
+        }
+
+        /* Modern Table Style */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
         }
 
         table {
@@ -155,18 +181,18 @@
         }
 
         th {
-            background-color: #fafafa;
+            background-color: #f8fafc;
             color: var(--text-muted);
+            padding: 14px 16px;
             font-weight: 500;
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 0.5px;
         }
 
         td {
-            padding: 16px 20px;
+            padding: 14px 16px;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-main);
         }
@@ -179,21 +205,10 @@
             background-color: #f8fafc;
         }
 
-        /* Badge สำหรับตกแต่ง */
-        .badge-role {
-            background-color: #f1f5f9;
-            color: var(--primary-color);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .empty-state {
+        .no-data {
             text-align: center;
-            padding: 40px;
             color: var(--text-muted);
-            font-size: 14px;
+            padding: 40px 0;
         }
     </style>
 </head>
@@ -201,43 +216,49 @@
 
     <div class="container">
         <header>
-            <h1>ระบบบริหารจัดการข้อมูลบุคคล</h1>
-            <p>กรอกข้อมูลด้านล่างเพื่อบันทึกลงในระบบตารางอย่างเป็นทางการ</p>
+            <div>
+                <h1>Data Management Console</h1>
+                <div class="subtitle">ระบบบันทึกและจัดการข้อมูลสารสนเทศส่วนกลาง</div>
+            </div>
         </header>
 
         <div class="card">
-            <div class="form-grid">
+            <div class="grid-form">
                 <div class="form-group">
                     <label for="inputName">ชื่อ - นามสกุล</label>
-                    <input type="text" id="inputName" placeholder="เช่น สมชาย ใจดี">
+                    <input type="text" id="inputName" placeholder="ระบุชื่อผู้ใช้งาน">
                 </div>
                 <div class="form-group">
-                    <label for="inputRole">ตำแหน่งงาน</label>
-                    <input type="text" id="inputRole" placeholder="เช่น ผู้จัดการ, นักพัฒนา">
+                    <label for="inputRole">ตำแหน่งงาน / แผนก</label>
+                    <input type="text" id="inputRole" placeholder="เช่น Engineer, Marketing">
                 </div>
                 <div class="form-group">
                     <label for="inputAge">อายุ (ปี)</label>
-                    <input type="number" id="inputAge" placeholder="เช่น 30">
+                    <input type="number" id="inputAge" placeholder="0">
                 </div>
-                <button class="btn-primary" onclick="addData()">บันทึกข้อมูล</button>
+                <button class="btn btn-primary" onclick="addData()">เพิ่มบันทึกข้อมูล</button>
             </div>
         </div>
 
-        <div class="table-container">
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th style="width: 40%;">ชื่อ-นามสกุล</th>
-                        <th style="width: 30%;">ตำแหน่งงาน</th>
-                        <th style="width: 15%;">อายุ</th>
-                        <th style="width: 15%; text-align: right;">การจัดการ</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    </tbody>
-            </table>
-            <div id="emptyState" class="empty-state" style="display: none;">
-                ไม่มีข้อมูลในระบบในขณะนี้
+        <div class="card">
+            <div class="table-toolbar">
+                <input type="text" id="searchBox" class="search-box" placeholder="🔍 ค้นหาข้อมูลในตาราง..." oninput="renderTable()">
+                <button class="btn btn-outline" onclick="exportToCSV()">ส่งออกไฟล์ CSV</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ชื่อ - นามสกุล</th>
+                            <th>ตำแหน่งงาน / แผนก</th>
+                            <th>อายุ</th>
+                            <th style="width: 100px; text-align: center;">การจัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -246,40 +267,50 @@
         // โหลดข้อมูลจาก LocalStorage
         let dataList = JSON.parse(localStorage.getItem('officialWebData')) || [];
 
+        // ฟังก์ชันแสดงผลข้อมูล
         function renderTable() {
             const tableBody = document.getElementById('tableBody');
-            const emptyState = document.getElementById('emptyState');
-            
-            tableBody.innerHTML = ''; 
+            const searchQuery = document.getElementById('searchBox').value.toLowerCase();
+            tableBody.innerHTML = '';
 
-            if (dataList.length === 0) {
-                emptyState.style.display = 'block';
+            // กรองข้อมูลตามที่ค้นหา
+            const filteredData = dataList.filter(item => 
+                item.name.toLowerCase().includes(searchQuery) || 
+                item.role.toLowerCase().includes(searchQuery) ||
+                item.age.toString().includes(searchQuery)
+            );
+
+            if (filteredData.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" class="no-data">ไม่พบข้อมูลในระบบ</td></tr>`;
                 return;
-            } else {
-                emptyState.style.display = 'none';
             }
 
-            dataList.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td style="font-weight: 500;">${item.name}</td>
-                    <td><span class="badge-role">${item.role}</span></td>
-                    <td>${item.age} ปี</td>
-                    <td style="text-align: right;">
-                        <button class="btn-danger" onclick="deleteData(${index})">ลบออก</button>
-                    </td>
+            filteredData.forEach((item, index) => {
+                // ค้นหาดัชนีจริงใน dataList เผื่อกรณีลบตอนที่กำลังค้นหาอยู่
+                const realIndex = dataList.indexOf(item); 
+                
+                const row = `
+                    <tr>
+                        <td style="font-weight: 500;">${escapeHtml(item.name)}</td>
+                        <td style="color: var(--text-muted);">${escapeHtml(item.role)}</td>
+                        <td>${escapeHtml(item.age)} ปี</td>
+                        <td style="text-align: center;">
+                            <button class="btn btn-danger" onclick="deleteData(${realIndex})">ลบออก</button>
+                        </td>
+                    </tr>
                 `;
-                tableBody.appendChild(row);
+                tableBody.innerHTML += row;
             });
         }
 
+        // ฟังก์ชันเพิ่มข้อมูล
         function addData() {
             const nameEl = document.getElementById('inputName');
             const roleEl = document.getElementById('inputRole');
             const ageEl = document.getElementById('inputAge');
 
             if (!nameEl.value.trim() || !roleEl.value.trim() || !ageEl.value.trim()) {
-                alert('กรุณากรอกข้อมูลในช่องว่างให้ครบถ้วน');
+                alert('กรุณากรอกข้อมูลในช่องว่างให้ครบถ้วนเพื่อความสมบูรณ์ของระบบ');
                 return;
             }
 
@@ -291,7 +322,7 @@
 
             localStorage.setItem('officialWebData', JSON.stringify(dataList));
 
-            // รีเซ็ตค่าในอินพุต
+            // ล้างข้อมูลใน Input
             nameEl.value = '';
             roleEl.value = '';
             ageEl.value = '';
@@ -299,17 +330,52 @@
             renderTable();
         }
 
+        // ฟังก์ชันลบข้อมูล
         function deleteData(index) {
-            if (confirm('คุณต้องการลบข้อมูลแถวนี้อย่างถาวรใช่หรือไม่?')) {
+            if (confirm('คุณต้องการลบข้อมูลแถวนี้ออกจากระบบอย่างถาวรใช่หรือไม่?')) {
                 dataList.splice(index, 1);
                 localStorage.setItem('officialWebData', JSON.stringify(dataList));
                 renderTable();
             }
         }
 
-        // เริ่มต้นระบบโดยแสดงตารางทันทีที่โหลดหน้าเว็บ
+        // ฟังก์ชันส่งออกเป็นไฟล์ CSV (เปิดใน Excel ได้)
+        function exportToCSV() {
+            if (dataList.length === 0) {
+                alert('ไม่มีข้อมูลในระบบสำหรับการส่งออก');
+                return;
+            }
+
+            let csvContent = "\uFEFF"; // ใส่ BOM รองรับภาษาไทยใน Excel
+            csvContent += "ชื่อ-นามสกุล,ตำแหน่งงาน/แผนก,อายุ\n";
+
+            dataList.forEach(item => {
+                csvContent += `"${item.name}","${item.role}","${item.age}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "Data_Report_" + new Date().toISOString().slice(0,10) + ".csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ป้องกัน Security XSS เบื้องต้น
+        function escapeHtml(text) {
+            return text.toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // เริ่มต้นการทำงาน
         renderTable();
     </script>
-
 </body>
 </html>
