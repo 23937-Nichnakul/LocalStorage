@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบบันทึกข้อมูลตาราง</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f5f7fb;
+            color: #333;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+        }
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>📊 ระบบบันทึกข้อมูลตาราง</h2>
+
+    <div class="form-container">
+        <input type="text" id="inputName" placeholder="ชื่อ-นามสกุล">
+        <input type="text" id="inputRole" placeholder="ตำแหน่ง">
+        <input type="number" id="inputAge" placeholder="อายุ">
+        <button onclick="addData()">เพิ่มข้อมูล</button>
+    </div>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ชื่อ-นามสกุล</th>
+                <th>ตำแหน่ง</th>
+                <th>อายุ</th>
+                <th>จัดการ</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            </tbody>
+    </table>
+
+    <script>
+        // โหลดข้อมูลเก่าจาก LocalStorage (ถ้ามี)
+        let dataList = JSON.parse(localStorage.getItem('myWebData')) || [];
+
+        // ฟังก์ชันแสดงผลข้อมูลในตาราง
+        function renderTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = ''; // เคลียร์ข้อมูลเก่าก่อนพิมพ์ใหม่
+
+            dataList.forEach((item, index) => {
+                const row = `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.role}</td>
+                        <td>${item.age} ปี</td>
+                        <td><button class="btn-delete" onclick="deleteData(${index})">ลบ</button></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // ฟังก์ชันเพิ่มข้อมูล
+        function addData() {
+            const name = document.getElementById('inputName').value;
+            const role = document.getElementById('inputRole').value;
+            const age = document.getElementById('inputAge').value;
+
+            // ตรวจสอบว่ากรอกข้อมูลครบไหม
+            if (name === '' || role === '' || age === '') {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วนครับ');
+                return;
+            }
+
+            // เพิ่มข้อมูลเข้า Array
+            dataList.push({ name, role, age });
+
+            // บันทึกลง LocalStorage
+            localStorage.setItem('myWebData', JSON.stringify(dataList));
+
+            // เคลียร์ค่าในช่อง Input
+            document.getElementById('inputName').value = '';
+            document.getElementById('inputRole').value = '';
+            document.getElementById('inputAge').value = '';
+
+            // อัปเดตตาราง
+            renderTable();
+        }
+
+        // ฟังก์ชันลบข้อมูล
+        function deleteData(index) {
+            if (confirm('คุณแน่ใจใช่ไหมที่จะลบข้อมูลนี้?')) {
+                dataList.splice(index, 1); // ลบข้อมูลใน Array ตาม index
+                localStorage.setItem('myWebData', JSON.stringify(dataList)); // บันทึกใหม่
+                renderTable(); // อัปเดตตาราง
+            }
+        }
+
+        // สั่งให้รันฟังก์ชันแสดงผลตอนเปิดหน้าเว็บครั้งแรก
+        renderTable();
+    </script>
+
+</body>
+</html>
